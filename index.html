@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>I M R STUDY - Mobile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f59e0b;
+            --accent: #ec4899;
+            --success: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+        }
+
+        body {
+            font-family: 'Noto Sans Sinhala', 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            background: var(--gradient);
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .mobile-logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .menu-btn, .notification-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Side Menu */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: white;
+            z-index: 2000;
+            transition: left 0.3s ease;
+            box-shadow: 5px 0 30px rgba(0,0,0,0.2);
+            overflow-y: auto;
+        }
+
+        .side-menu.active {
+            left: 0;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-header {
+            background: var(--gradient);
+            padding: 2rem 1.5rem;
+            color: white;
+        }
+
+        .menu-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 3px solid white;
+        }
+
+        .user-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .user-info p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .menu-items {
+            padding: 1rem 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s;
+        }
+
+        .menu-item:hover {
+            background: #f8fafc;
+            color: var(--primary);
+        }
+
+        .menu-item i {
+            width: 30px;
+            height: 30px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 70px;
+            padding: 1rem;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin: 0 auto 0.5rem;
+            font-size: 1rem;
+        }
+
+        .stat-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 0.2rem;
+        }
+
+        /* Login Section */
+        .login-section {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 2.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #f8fafc;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .btn-mobile {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid #e2e8f0;
+            margin-top: 0.8rem;
+        }
+
+        /* External Links Section */
+        .external-links {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+            text-decoration: none;
+            color: var(--dark);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .link-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .link-card:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .link-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .link-info {
+            flex: 1;
+        }
+
+        .link-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .link-info p {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .link-arrow {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Services Grid */
+        .services-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .service-box {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .service-box:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .service-icon-m {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin: 0 auto 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        .service-box h3 {
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .service-box span {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Recent Uploads */
+        .uploads-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .upload-item {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .upload-thumb {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .upload-details {
+            flex: 1;
+        }
+
+        .upload-details h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+            line-height: 1.3;
+        }
+
+        .upload-meta-m {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .btn-download-m {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 0.8rem 1rem calc(0.8rem + var(--safe-area-bottom));
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 0.7rem;
+            transition: all 0.3s;
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active i {
+            background: var(--gradient);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -20px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-up {
+            animation: slideUp 0.5s ease forwards;
+        }
+
+        /* Loading */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loader-progress {
+            width: 0;
+            height: 100%;
+            background: var(--gradient);
+            animation: load 2s ease forwards;
+        }
+
+        @keyframes load {
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-logo"><i class="fas fa-graduation-cap"></i> I M R STUDY</div>
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <div class="menu-user">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h3>ආයුබෝවන්!</h3>
+                    <p>ලියාපදිංචි වන්න</p>
+                </div>
+            </div>
+        </div>
+        <div class="menu-items">
+            <a href="#" class="menu-item" onclick="toggleMenu()">
+                <i class="fas fa-home"></i>
+                <span>මුල් පිටුව</span>
+            </a>
+            <a href="#external" class="menu-item" onclick="toggleMenu()">
+                <i class="fas fa-external-link-alt"></i>
+                <span>බාහිර සම්පත්</span>
+            </a>
+            <a href="#services" class="menu-item" onclick="toggleMenu()">
+                <i class="fas fa-book"></i>
+                <span>මගේ නෝට්ස්</span>
+            </a>
+            <a href="#" class="menu-item" onclick="toggleMenu()">
+                <i class="fas fa-download"></i>
+                <span>බාගත කිරීම්</span>
+            </a>
+            <a href="#" class="menu-item" onclick="toggleMenu()">
+                <i class="fas fa-cog"></i>
+                <span>සැකසුම්</span>
+            </a>
+            <a href="#" class="menu-item" onclick="toggleMenu()">
+                <i class="fas fa-phone"></i>
+                <span>උදව්ව</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="mobile-logo">
+            <i class="fas fa-graduation-cap"></i>
+            I M R STUDY
+        </div>
+        <button class="notification-btn">
+            <i class="fas fa-bell"></i>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Quick Stats -->
+        <div class="quick-stats animate-up">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <span class="stat-number">10K+</span>
+                <span class="stat-label">ශිෂ්‍යයන්</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <span class="stat-number">5K+</span>
+                <span class="stat-label">නෝට්ස්</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <span class="stat-number">1K+</span>
+                <span class="stat-label">ප්‍රශ්න පත්‍ර</span>
+            </div>
+        </div>
+
+        <!-- External Links Section -->
+        <div class="external-links animate-up" id="external">
+            <h2 class="section-title">
+                <i class="fas fa-external-link-alt"></i>
+                ශ්‍රී ලංකා ශෝට් නෝට්ස් සම්පත්
+            </h2>
+
+            <a href="https://www.gurugedara.lk" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="link-info">
+                    <h4>ගුරුගෙදර</h4>
+                    <p>නිල විෂය මාලාව, නෝට්ස්, ප්‍රශ්න පත්‍ර</p>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+
+            <a href="https://www.e-thaksalawa.moe.gov.lk" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                    <i class="fas fa-school"></i>
+                </div>
+                <div class="link-info">
+                    <h4>e-Thaksalawa</h4>
+                    <p>අධ්‍යාපන අමාත්‍යංශයේ නිල වේදිකාව</p>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+
+            <a href="https://www.pastpapers.wiki" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="link-info">
+                    <h4>Past Papers Wiki</h4>
+                    <p>සියලුම විෂයන්හි පසුගිය විභාග ප්‍රශ්න පත්‍ර</p>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+
+            <a href="https://www.almodelpapers.com" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div class="link-info">
+                    <h4>A/L Model Papers</h4>
+                    <p>උසස් පෙළ නිදර්ශන ප්‍රශ්න පත්‍ර</p>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+
+            <a href="https://www.olevelmaths.com" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="link-info">
+                    <h4>O Level Maths</h4>
+                    <p>ගණිතය ප්‍රශ්න පත්‍ර සහ විසඳුම්</p>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+
+            <a href="https://www.siyavula.com" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #30cfd0, #330867);">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="link-info">
+                    <h4>Siyavula Education</h4>
+                    <p>අන්තර්ජාලය තුළ නොමිලේ පාඩම්</p>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+
+            <a href="https://www.youtube.com/c/IsuruWijesiri" target="_blank" class="link-card">
+                <div class="link-icon" style="background: #ff0000;">
+                    <i class="fab fa-youtube"></i>
+                </div>
+                <div class="link-info">
+                    <h4>Isuru Wijesiri (YouTube)</h4>
+                    <p>ජනප්‍රිය ගණිත ඉගැන්වීම් නාලිකාව</p>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+
+            <a href="https://www.youtube.com/c/CharithaDias" target="_blank" class="link-card">
+                <div class="link-icon" style="background: #ff0000;">
+                    <i class="fab fa-youtube"></i>
+                </div>
+                <div class="link-info">
+                    <h4>Charitha Dias (YouTube)</h4>
+                    <p>විද්‍යා විෂය ඉගැන්වීම්</p>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+        </div>
+
+        <!-- Login Section -->
+        <div class="login-section animate-up">
+            <h2 class="section-title">
+                <i class="fas fa-user-plus"></i>
+                ලියාපදිංචි වන්න
+            </h2>
+            
+            <form id="mobileLoginForm">
+                <div class="form-group">
+                    <label>සම්පූර්ණ නම</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="ඔබේ නම" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>දුරකථන අංකය</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" placeholder="07X XXX XXXX" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>පාසල</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-school"></i>
+                        <input type="text" placeholder="පාසලේ නම" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>ශ්‍රේණිය</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-layer-group"></i>
+                        <select required>
+                            <option value="">තෝරන්න</option>
+                            <option value="6">6 ශ්‍රේණිය</option>
+                            <option value="7">7 ශ්‍රේණිය</option>
+                            <option value="8">8 ශ්‍රේණිය</option>
+                            <option value="9">9 ශ්‍රේණිය</option>
+                            <option value="10">10 ශ්‍රේණිය</option>
+                            <option value="11">11 ශ්‍රේණිය</option>
+                            <option value="12">12 ශ්‍රේණිය</option>
+                            <option value="13">13 ශ්‍රේණිය</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>මුරපදය</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="මුරපදය" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-mobile">
+                    <i class="fas fa-user-plus"></i> ගිණුමක් සාදන්න
+                </button>
+                <button type="button" class="btn-mobile btn-secondary">
+                    <i class="fas fa-sign-in-alt"></i> ප්‍රවේශ වන්න
+                </button>
+            </form>
+        </div>
+
+        <!-- Services Section -->
+        <div class="services-section animate-up" id="services">
+            <h2 class="section-title">
+                <i class="fas fa-th-large"></i>
+                අපගේ සේවා
+            </h2>
+            <div class="services-grid">
+                <div class="service-box" onclick="showService('notes')">
+                    <div class="service-icon-m">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>ශෝට් නෝට්ස්</h3>
+                    <span>250+ නෝට්ස්</span>
+                </div>
+                <div class="service-box" onclick="showService('papers')">
+                    <div class="service-icon-m" style="background: var(--gradient-2);">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3>ප්‍රශ්න පත්‍ර</h3>
+                    <span>1000+ ප්‍රශ්න පත්‍ර</span>
+                </div>
+                <div class="service-box" onclick="showService('videos')">
+                    <div class="service-icon-m" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>වීඩියෝ</h3>
+                    <span>500+ පාඩම්</span>
+                </div>
+                <div class="service-box" onclick="showService('tutors')">
+                    <div class="service-icon-m" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>ගුරුවරුන්</h3>
+                    <span>50+ ගුරුවරුන්</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Uploads -->
+        <div class="external-links animate-up">
+            <h2 class="section-title">
+                <i class="fas fa-clock"></i>
+                නවතම එකතු කිරීම්
+            </h2>
+            
+            <div class="uploads-list">
+                <div class="upload-item">
+                    <div class="upload-thumb">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="upload-details">
+                        <h4>ගණිතය - කොටස 1 ශෝට් නෝට්ස්</h4>
+                        <div class="upload-meta-m">
+                            <span><i class="fas fa-user"></i> රොහාන් සර්</span>
+                            <span><i class="fas fa-clock"></i> 2 දිනකට පෙර</span>
+                        </div>
+                    </div>
+                    <button class="btn-download-m" onclick="downloadFile(this)">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+
+                <div class="upload-item">
+                    <div class="upload-thumb" style="background: var(--gradient-2);">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="upload-details">
+                        <h4>විද්‍යාව - ජීව විද්‍යාව ප්‍රශ්න පත්‍ර</h4>
+                        <div class="upload-meta-m">
+                            <span><i class="fas fa-user"></i> කමලා මැතිනිය</span>
+                            <span><i class="fas fa-clock"></i> 5 දිනකට පෙර</span>
+                        </div>
+                    </div>
+                    <button class="btn-download-m" onclick="downloadFile(this)">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+
+                <div class="upload-item">
+                    <div class="upload-thumb" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <i class="fas fa-file-powerpoint"></i>
+                    </div>
+                    <div class="upload-details">
+                        <h4>ඉතිහාසය - යුරෝපයේ ඉතිහාසය</h4>
+                        <div class="upload-meta-m">
+                            <span><i class="fas fa-user"></i> සුනිල් සර්</span>
+                            <span><i class="fas fa-clock"></i> 1 සතියකට පෙර</span>
+                        </div>
+                    </div>
+                    <button class="btn-download-m" onclick="downloadFile(this)">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" onclick="setActive(this)">
+            <i class="fas fa-home"></i>
+            <span>මුල් පිටුව</span>
+        </a>
+        <a href="#external" class="nav-item" onclick="setActive(this)">
+            <i class="fas fa-compass"></i>
+            <span>සොයන්න</span>
+        </a>
+        <a href="#services" class="nav-item" onclick="setActive(this)">
+            <i class="fas fa-book-open"></i>
+            <span>නෝට්ස්</span>
+        </a>
+        <a href="#" class="nav-item" onclick="setActive(this)">
+            <i class="fas fa-user"></i>
+            <span>මම</span>
+        </a>
+    </nav>
+
+    <script>
+        // Page Loader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('pageLoader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Menu Toggle
+        function toggleMenu() {
+            document.getElementById('sideMenu').classList.toggle('active');
+            document.getElementById('menuOverlay').classList.toggle('active');
+        }
+
+        // Bottom Nav Active State
+        function setActive(element) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        // Form Submission
+        document.getElementById('mobileLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn-mobile');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> සකසමින්...';
+            btn.disabled = true;
+
+            setTimeout(function() {
+                btn.innerHTML = '<i class="fas fa-check"></i> සාර්ථකයි!';
+                btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                
+                setTimeout(function() {
+                    alert('ඔබගේ ගිණුම සාර්ථකව සාදන ලදී! 🎉');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.style.background = '';
+                }, 1000);
+            }, 2000);
+        });
+
+        // Download Animation
+        function downloadFile(btn) {
+            const originalIcon = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            setTimeout(function() {
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                btn.style.background = '#10b981';
+                
+                setTimeout(function() {
+                    btn.innerHTML = originalIcon;
+                    btn.style.background = '';
+                    btn.disabled = false;
+                }, 1500);
+            }, 1500);
+        }
+
+        // Service Click Handler
+        function showService(type) {
+            const messages = {
+                'notes': 'ශෝට් නෝට්ස් කාණ්ඩයට පිවිසෙමින්...',
+                'papers': 'ප්‍රශ්න පත්‍ර කාණ්ඩයට පිවිසෙමින්...',
+                'videos': 'වීඩියෝ පාඩම් කාණ්ඩයට පිවිසෙමින්...',
+                'tutors': 'ගුරුවරුන් ලැයිස්තුවට පිවිසෙමින්...'
+            };
+            alert(messages[type]);
+        }
+
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Pull to Refresh Simulation
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndY > touchStartY + 100 && window.scrollY === 0) {
+                // Pull down detected at top of page
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
