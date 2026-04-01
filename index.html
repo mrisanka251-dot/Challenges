@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🎓 STUDY පොඩ්ඩෝ | ඉගෙන ගනිමු සල්ලි හොයමු!</title>
+    <title>🚫 STUDY පොඩ්ඩෝ | ඉගෙන ගනිමු Coin හොයමු!</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -881,7 +881,7 @@
         </div>
         <div class="user-stats">
             <div class="stat-pill coins">🪙 <span id="coinCount">0</span></div>
-            <div class="stat-pill level">⭐ LVL <span id="levelCount">1</span></div>
+            <div class="stat-pill level">⭐ LeveL <span id="levelCount">1</span></div>
             <div class="stat-pill streak">🔥 <span id="streakCount">0</span></div>
         </div>
     </header>
@@ -1018,10 +1018,10 @@
             <!-- Subject Tabs -->
             <div class="subject-tabs">
                 <div class="subject-tab math active" onclick="filterBySubject('all', this)">
-                    <i>🎲</i> සියල්ල
+                    <i>🎲</i> ඉතිහාසය
                 </div>
                 <div class="subject-tab math" onclick="filterBySubject('math', this)">
-                    <i>🔢</i> ගණිත
+                    <i>🔢</i> ගණිතය
                 </div>
                 <div class="subject-tab science" onclick="filterBySubject('science', this)">
                     <i>🔬</i> විද්‍යාව
@@ -1034,6 +1034,8 @@
                 </div>
                 <div class="subject-tab ict" onclick="filterBySubject('ict', this)">
                     <i>💻</i> ICT
+                <div class="subject-tab ict" onclick="filterBySubject('ict', this)">
+                    <i>💻</i> පුරවැසි
                 </div>
             </div>
 
@@ -1104,7 +1106,7 @@
         <div id="profile-section" class="section">
             <div class="card profile-header">
                 <div class="profile-avatar" id="profileAvatar">🎓</div>
-                <h2 class="profile-name" id="profileName">අමුත්තා</h2>
+                <h2 class="profile-name" id="profileName">Best Freind ✓</h2>
                 <p class="profile-username">@student_<span id="profileId">12345</span></p>
                 
                 <div class="profile-stats">
@@ -1132,7 +1134,7 @@
                         📤 මගේ ලකුණු බෙදාගන්න
                     </button>
                     <button class="btn btn-primary" onclick="inviteFriend()" style="width: 100%; justify-content: center;">
-                        👥 මිතුරෙකු ආරාධනා කරන්න (+25🪙)
+                        👥 මිතුරෙකු ආරාධනා කරන්න (+45🪙)
                     </button>
                 </div>
             </div>
@@ -1205,14 +1207,14 @@
         <!-- Settings Section -->
         <div id="settings-section" class="section">
             <div class="card">
-                <div class="card-title">⚙️ සැකසුම්</div>
+                <div class="card-title">⚙️ Settings</div>
                 <div class="settings-list">
                     <div class="setting-item">
                         <div class="setting-info">
                             <div class="setting-icon">🌙</div>
                             <div>
                                 <div class="setting-text">Dark Mode</div>
-                                <div class="setting-desc">රාත්‍රී මාදිලිය ක්‍රියාත්මක කරන්න</div>
+                                <div class="setting-desc">𝗗𝗮𝗿𝗹 𝗠𝗼𝗱𝗲</div>
                             </div>
                         </div>
                         <label class="toggle">
@@ -1242,7 +1244,7 @@
                 <p style="color: var(--text-secondary); font-size: 14px;">වර්ෂණය 3.0.0</p>
                 <p style="color: var(--text-secondary); font-size: 12px; margin-top: 10px;">
                     © 2026 සියලු හිමිකම් ඇත.<br>
-                    සාදා ඇත්තේ ❤️ සමඟ ශ්‍රී ලංකාවේ
+                    සාදා ඇත්තේ ❍ Isanka Malith
                 </p>
             </div>
         </div>
@@ -1266,6 +1268,10 @@
         <div class="nav-item" onclick="switchTab('shop')">
             <span class="nav-icon">🛒</span>
             <span class="nav-label">කඩේ</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-label">පැතිකඩ</span>
         </div>
         <div class="nav-item" onclick="switchTab('profile')">
             <span class="nav-icon">👤</span>
@@ -1527,7 +1533,7 @@
             }
             
             setTimeout(() => {
-                showNotification('🎉 STUDY පොඩ්ඩෝ වෙත සාදරයෙන් පිළිගනිමු!', 'success', 5000, 'ස්වාගතයයි');
+                showNotification('🎉 STUDY පොඩ්ඩෝ වෙත ඔබව සාදරයෙන් පිළිගනිමු!', 'success', 5000, 'ස්වාගතයයි');
             }, 1000);
         });
 
