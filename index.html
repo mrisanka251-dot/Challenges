@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDY වැඩ්ඩා v5 Responsive</title>
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(120deg, #f6d365, #fda085);
+    margin: 0; padding: 0;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.container {
+    background: white;
+    border-radius: 15px;
+    padding: 20px 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    max-width: 90%;
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+h1 { color: #ff5722; margin-bottom: 10px; font-size: 1.5em; }
+input { padding: 12px; width: 90%; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; font-size: 1em; }
+button { padding: 12px 20px; margin: 10px 5px; border: none; border-radius: 5px; background-color: #ff5722; color: white; cursor: pointer; transition: 0.3s; font-size: 1em; }
+button:hover { background-color: #e64a19; transform: scale(1.05); }
+.hidden { display: none; }
+.question { text-align: left; margin-top: 20px; font-size: 1.1em; }
+.options button { display: block; margin: 10px 0; width: 100%; background-color: #2196f3; font-size: 1em; }
+.options button:hover { background-color: #1976d2; }
+.leaderboard, .packages { margin-top: 20px; text-align: left; font-size: 1em; }
+.packages button { width: 100%; background-color: #4caf50; margin: 5px 0; font-size: 1em; }
+.packages button:hover { background-color: #388e3c; }
+.coin {
+    position: absolute;
+    font-size: 24px;
+    color: gold;
+    animation: flyCoin 1s forwards;
+}
+@keyframes flyCoin {
+    0% {transform: translateY(0) scale(1); opacity:1;}
+    100% {transform: translateY(-120px) translateX(50px) scale(0.5); opacity:0;}
+}
+canvas { position: fixed; top:0; left:0; pointer-events:none; z-index:9999; }
+@media (max-width: 600px) {
+    h1 { font-size: 1.2em; }
+    input, button { font-size: 0.9em; padding: 10px; }
+    .question { font-size: 1em; }
+}
+</style>
+</head>
+<body>
+<canvas id="confettiCanvas"></canvas>
+<div class="container" id="loginDiv">
+    <h1>STUDY වැඩ්ඩා v5</h1>
+    <input type="text" id="userNumber" placeholder="ඔබගේ නම්බර්" /><br>
+    <input type="password" id="userPassword" placeholder="පාස්වර්ඩ්" /><br>
+    <button onclick="login()">Login</button>
+    <button onclick="showRegister()">Register</button>
+</div>
+<div class="container hidden" id="registerDiv">
+    <h1>Register</h1>
+    <input type="text" id="regNumber" placeholder="නම්බර්" /><br>
+    <input type="password" id="regPassword" placeholder="පාස්වර්ඩ්" /><br>
+    <button onclick="register()">Register</button>
+    <button onclick="showLogin()">Back to Login</button>
+</div>
+<div class="container hidden" id="quizDiv">
+    <h1>STUDY වැඩ්ඩා v5</h1>
+    <div id="coinsDisplay">Coins: 0</div>
+    <div id="streakDisplay">Daily Streak: 0</div>
+    <div class="question" id="questionText"></div>
+    <div class="options" id="optionsDiv"></div>
+    <button onclick="nextQuestion()">Next Question</button>
+    <button onclick="showLeaderboard()">Leaderboard</button>
+    <button onclick="showPackages()">Redeem Coins</button>
+</div>
+<div class="container hidden" id="leaderboardDiv">
+    <h1>7 Days Leaderboard</h1>
+    <div class="leaderboard" id="leaderboardList"></div>
+    <button onclick="backToQuiz()">Back</button>
+</div>
+<div class="container hidden" id="packagesDiv">
+    <h1>Redeem Coins</h1>
+    <div class="packages" id="packagesList"></div>
+    <button onclick="backToQuiz()">Back</button>
+</div>
+<script>
+// Users & questions logic (same as v5)
+let currentUser=null; let currentQuestionIndex=0;
+let questions=[
+{subject:"ගණිත",q:"8 × 7 = ?",options:["48","54","56","60"],answer:"56"},
+{subject:"ගණිත",q:"21 ÷ 3 = ?",options:["5","7","8","9"],answer:"7"},
+{subject:"විද්‍යාව",q:"හෙමොග්ලොබින් යනු කුමක්ද?",options:["ප්‍රෝටීන්","කාබන්","ටැංක","කාල්ශියම්"],answer:"ප්‍රෝටීන්"},
+{subject:"විද්‍යාව",q:"ජලය වාෂ්පීකරණය වනවිට එය කුමක් වෙනවා?",options:["ශීතල වේ","ගرم වේ","සියලුම සිදුවෙයි","නැත"],answer:"ශීතල වේ"},
+{subject:"ඉතිහාසය",q:"ශ්‍රී ලංකාවේ ප්‍රාග් ඓතිහාසික කාලය කොපමණ වේ?",options:["1000 වසර","2000 වසර","3000 වසර","5000 වසර"],answer:"3000 වසර"},
+{subject:"භූගෝලය",q:"ශ්‍රී ලංකාවේ ප්‍රධාන නදිය කුමක්ද?",options:["මහ වැලි ඇල්ල","මහනදිය","කැලණිය","වෙලි ඇල්ල"],answer:"මහනදිය"},
+{subject:"සිංහල",q:"“මහ පොත” ග‍්‍රන්ථය රචිත කවුරුන්ද?",options:["දොන් බොස්කෝ","කලුතර කුමාරී","ක.V. වන්දනා","මාදුෂා"],answer:"ක.V. වන්දනා"}
+];
+let packages=[{name:"Extra Quiz Pack",cost:5},{name:"Fun Fact Pack",cost:10},{name:"Super Quiz Pack",cost:20}];
+// Login/Register functions same as before
+function showRegister(){document.getElementById('loginDiv').classList.add('hidden');document.getElementById('registerDiv').classList.remove('hidden');}
+function showLogin(){document.getElementById('registerDiv').classList.add('hidden');document.getElementById('loginDiv').classList.remove('hidden');}
+function register(){let num=document.getElementById('regNumber').value;let pass=document.getElementById('regPassword').value;if(!num||!pass){alert("Fill all fields!");return;} let users=JSON.parse(localStorage.getItem('users')||'{}');if(users[num]){alert("User already exists");return;} users[num]={password:pass,coinsHistory:{},streak:0,lastLogin:new Date().toDateString()}; localStorage.setItem('users',JSON.stringify(users));alert("Registered! Please login.");showLogin();}
+function login(){let num=document.getElementById('userNumber').value;let pass=document.getElementById('userPassword').value;let users=JSON.parse(localStorage.getItem('users')||'{}');if(users[num]&&users[num].password===pass){currentUser=num;handleDailyStreak();currentQuestionIndex=0;document.getElementById('loginDiv').classList.add('hidden');document.getElementById('quizDiv').classList.remove('hidden');updateCoins();showQuestion();} else{alert("Invalid credentials");}}
+// Daily streak, quiz, coins logic same as v5
+function handleDailyStreak(){let users=JSON.parse(localStorage.getItem('users')||'{}');let today=new Date().toDateString();if(users[currentUser].lastLogin!==today){let last=new Date(users[currentUser].lastLogin);let yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);if(last.toDateString()===yesterday.toDateString()){users[currentUser].streak=(users[currentUser].streak||0)+1;addCoinsToHistory(currentUser,1);spawnCoinAnimation();launchConfetti();alert("Daily Streak! +1 coin");} else{users[currentUser].streak=1;} users[currentUser].lastLogin=today;localStorage.setItem('users',JSON.stringify(users));} document.getElementById('streakDisplay').innerText="Daily Streak: "+users[currentUser].streak;}
+function addCoinsToHistory(user,coins){let users=JSON.parse(localStorage.getItem('users')||'{}');let today=new Date().toDateString();if(!users[user].coinsHistory)users[user].coinsHistory={}; users[user].coinsHistory[today]=(users[user].coinsHistory[today]||0)+coins; localStorage.setItem('users',JSON.stringify(users));}
+function updateCoins(){let users=JSON.parse(localStorage.getItem('users')||'{}');let totalCoins=Object.values(users[currentUser].coinsHistory||{}).reduce((a,b)=>a+b,0);document.getElementById('coinsDisplay').innerText="Coins: "+totalCoins;document.getElementById('streakDisplay').innerText="Daily Streak: "+users[currentUser].streak;}
+function showQuestion(){if(currentQuestionIndex>=questions.length){currentQuestionIndex=0;} let q=questions[currentQuestionIndex];document.getElementById('questionText').innerText=q.subject+": "+q.q;let optionsDiv=document.getElementById('optionsDiv');optionsDiv.innerHTML="";q.options.forEach(opt=>{let btn=document.createElement('button');btn.innerText=opt;btn.onclick=()=>answerQuestion(opt);optionsDiv.appendChild(btn);});}
+function answerQuestion(opt){let q=questions[currentQuestionIndex];if(opt===q.answer){addCoinsToHistory(currentUser,1);spawnCoinAnimation();launchConfetti();alert("Correct! +1 coin");} else{alert("Wrong!");} updateCoins();}
+function nextQuestion(){currentQuestionIndex++;showQuestion();}
+// Leaderboard, Packages logic same as v5
+function showLeaderboard(){document.getElementById('quizDiv').classList.add('hidden');document.getElementById('leaderboardDiv').classList.remove('hidden');let users=JSON.parse(localStorage.getItem('users')||'{}');let leaderboard=[];let today=new Date();Object.keys(users).forEach(u=>{let total7days=0;for(let i=0;i<7;i++){let day=new Date();day.setDate(today.getDate()-i);let dayStr=day.toDateString();total7days+=users[u].coinsHistory[dayStr]||0;} leaderboard.push({num:u,coins:total7days});}); leaderboard.sort((a,b)=>b.coins-a.coins;); let html="<ol>"; leaderboard.forEach(u=>{html+=`<li>${u.num} - ${u.coins} coins</li>`;}); html+="</ol>"; document.getElementById('leaderboardList').innerHTML=html;}
+function showPackages(){document.getElementById('quizDiv').classList.add('hidden');document.getElementById('packagesDiv').classList.remove('hidden');let html="";packages.forEach(p=>{html+=`<button onclick="redeemPackage('${p.name}',${p.cost})">${p.name} - ${p.cost} coins</button>`;});document.getElementById('packagesList').innerHTML=html;}
+function redeemPackage(name,cost){let users=JSON.parse(localStorage.getItem('users')||'{}');let totalCoins=Object.values(users[currentUser].coinsHistory||{}).reduce((a,b)=>a+b,0);if(totalCoins>=cost){let coinsLeft=cost;let sortedDays=Object.keys(users[currentUser].coinsHistory).sort((a,b)=>new Date(a)-new Date(b));for(let day of sortedDays){if(coinsLeft<=0)break; let available=users[currentUser].coinsHistory[day]; if(available<=coinsLeft){coinsLeft-=available;users[currentUser].coinsHistory[day]=0;} else{users[currentUser].coinsHistory[day]-=coinsLeft;coinsLeft=0;}} localStorage.setItem('users',JSON.stringify(users));alert(`You redeemed ${name}!`);updateCoins();spawnCoinAnimation();} else{alert("Not enough coins!");}}
+function backToQuiz(){document.getElementById('packagesDiv').classList.add('hidden');document.getElementById('leaderboardDiv').classList.add('hidden');document.getElementById('quizDiv').classList.remove('hidden');}
+// Confetti & Coin animation logic same as v5
+const canvas=document.getElementById('confettiCanvas'); const ctx=canvas.getContext('2d'); canvas.width=window.innerWidth; canvas.height=window.innerHeight; let confettiParticles=[]; function launchConfetti(){for(let i=0;i<100;i++){confettiParticles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*6+4, dx:(Math.random()-0.5)*4, dy:(Math.random()-0.5)*4, color:`hsl(${Math.random()*360},100%,50%)`});} animateConfetti();} function animateConfetti(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let p of confettiParticles){ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,2*Math.PI);ctx.fillStyle=p.color;ctx.fill();p.x+=p.dx; p.y+=p.dy; p.dy+=0.05; if(p.y>canvas.height){p.y=0; p.x=Math.random()*canvas.width;} } requestAnimationFrame(animateConfetti);}
+function spawnCoinAnimation(){let coin=document.createElement('div');coin.className='coin';coin.innerText='💰';let quizDiv=document.getElementById('quizDiv');coin.style.left=(Math.random()*quizDiv.offsetWidth)+'px';coin.style.top=quizDiv.offsetHeight+'px';quizDiv.appendChild(coin);setTimeout(()=>coin.remove(),1000);}
+</script>
+</body>
+</html>
