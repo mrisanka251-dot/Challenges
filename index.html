@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMR NEWS - ශ්‍රී ලාංකික පුවත්</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Abhaya+Libre:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #800000;
+            --primary-dark: #600000;
+            --secondary: #FFD700;
+            --accent: #FF6B35;
+            --dark: #1a1a1a;
+            --light: #f5f5f5;
+            --white: #ffffff;
+            --text: #333333;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Noto Sans Sinhala', 'Abhaya Libre', sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Breaking News Ticker */
+        .breaking-ticker {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 12px 0;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .ticker-label {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 12px 20px;
+            font-weight: 700;
+            z-index: 10;
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            white-space: nowrap;
+            padding-left: 150px;
+        }
+
+        .ticker-item {
+            padding: 0 40px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ticker-item::before {
+            content: "🔴";
+            font-size: 10px;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Header */
+        .main-header {
+            background: var(--white);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-top {
+            background: var(--dark);
+            color: var(--white);
+            padding: 8px 0;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-top-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .date-weather {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .weather-widget {
+            display: flex;
+            gap: 15px;
+        }
+
+        .weather-city {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 28px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(128,0,0,0.3);
+        }
+
+        .logo-text h1 {
+            font-size: 32px;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .logo-text span {
+            display: block;
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 500;
+            margin-top: -5px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 12px 40px 12px 20px;
+            border: 2px solid var(--border);
+            border-radius: 30px;
+            width: 250px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            width: 300px;
+        }
+
+        .search-box button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(128,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+
+        /* Navigation */
+        .main-nav {
+            background: var(--primary);
+            border-radius: 0 0 20px 20px;
+            margin: 0 20px;
+            position: relative;
+            top: -10px;
+        }
+
+        .nav-list {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-list li {
+            position: relative;
+        }
+
+        .nav-list a {
+            display: block;
+            padding: 18px 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-list a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--secondary);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        .nav-list a:hover::after {
+            width: 80%;
+        }
+
+        .nav-list a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 40px 0;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            height: 500px;
+        }
+
+        .hero-main {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .hero-main:hover .hero-image {
+            transform: scale(1.05);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 40px;
+            color: white;
+        }
+
+        .category-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 15px;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .hero-side {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .side-card {
+            flex: 1;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .side-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .side-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .side-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px;
+            color: white;
+        }
+
+        .side-title {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* News Sections */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: var(--primary);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--secondary);
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: gap 0.3s;
+        }
+
+        .view-all:hover {
+            gap: 10px;
+        }
+
+        .news-section {
+            padding: 40px 0;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            position: relative;
+        }
+
+        .news-image-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-title {
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            color: var(--dark);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-excerpt {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .news-date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Event Calendar Section */
+        .events-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 60px 0;
+            margin: 40px 0;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .calendar-widget {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav button {
+            width: 35px;
+            height: 35px;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calendar-nav button:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .calendar-day-header {
+            font-weight: 600;
+            color: var(--primary);
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .calendar-day:hover {
+            background: var(--light);
+        }
+
+        .calendar-day.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .calendar-day.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .upcoming-events {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary);
+        }
+
+        .event-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .event-date {
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .event-day {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .event-month {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .event-details h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .event-type {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Registration Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-container {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .modal-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(128,0,0,0.1);
+        }
+
+        .password-strength {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .strength-weak { background: #ff4444; width: 33%; }
+        .strength-medium { background: #ffaa00; width: 66%; }
+        .strength-strong { background: #00c851; width: 100%; }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .checkbox-group a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(128,0,0,0.3);
+        }
+
+        .modal-footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            color: #666;
+        }
+
+        .modal-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .social-btn:hover {
+            border-color: var(--primary);
+            background: var(--light);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* User Dashboard (Hidden by default) */
+        .user-dashboard {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            width: 300px;
+            z-index: 1500;
+            overflow: hidden;
+        }
+
+        .user-dashboard.active {
+            display: block;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dashboard-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .dashboard-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--dark);
+        }
+
+        .dashboard-menu {
+            list-style: none;
+        }
+
+        .dashboard-menu li {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dashboard-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dashboard-menu a:hover {
+            background: var(--light);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .dashboard-menu i {
+            width: 20px;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        .main-footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo-text h1 {
+            color: white;
+            font-size: 28px;
+        }
+
+        .footer-brand p {
+            margin-top: 20px;
+            color: #aaa;
+            line-height: 1.8;
+        }
+
+        .footer-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: #444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(180deg);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            --light: #1a1a1a;
+            --white: #2d2d2d;
+            --text: #e0e0e0;
+            --border: #444;
+            --dark: #f5f5f5;
+        }
+
+        body.dark-mode .news-card,
+        body.dark-mode .calendar-widget,
+        body.dark-mode .event-card {
+            background: #2d2d2d;
+        }
+
+        body.dark-mode .search-box input {
+            background: #2d2d2d;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .news-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .hero-main {
+                height: 400px;
+            }
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .nav-list {
+                flex-wrap: wrap;
+            }
+            .nav-list a {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+            .header-main {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .search-box input {
+                width: 200px;
+            }
+            .calendar-grid {
+                gap: 5px;
+            }
+            .calendar-day {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-title {
+                font-size: 24px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            align-items: center;
+            gap: 12px;
+            z-index: 3000;
+            animation: slideIn 0.3s;
+        }
+
+        .toast.show {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Article Modal */
+        .article-modal .modal-container {
+            max-width: 800px;
+        }
+
+        .article-content {
+            padding: 30px;
+        }
+
+        .article-header {
+            margin-bottom: 30px;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .article-body {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .article-body p {
+            margin-bottom: 20px;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid var(--border);
+        }
+
+        .share-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .share-whatsapp { background: #25D366; color: white; }
+        .share-facebook { background: #1877F2; color: white; }
+        .share-twitter { background: #1DA1F2; color: white; }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Breaking News Ticker -->
+    <div class="breaking-ticker">
+        <div class="ticker-label">අලුත්ම පුවත්</div>
+        <div class="ticker-content" id="tickerContent">
+            <span class="ticker-item">කොළඹ නගරයේ රථවාහන තදබදයක් හටගෙන ඇත - පොලීසිය ජනතාවට දැනුම්දීමක්</span>
+            <span class="ticker-item">ශ්‍රී ලංකා ක්‍රිකට් කණ්ඩායම ඉන්දියාවට එරෙහිව ජයග්‍රහණයක් වාර්තා කරයි</span>
+            <span class="ticker-item">නව රජයේ ප්‍රථම අයවැය මැයි මාසයේ ඉදිරිපත් කෙරේ</span>
+            <span class="ticker-item">වෙසක් උත්සව සඳහා පොලීසිය විශේෂ ආරක්ෂක සැලසුමක් හඳුන්වා දෙයි</span>
+            <span class="ticker-item">කොළඹ කොටස් වෙළඳපොළේ සටනකින් පසුව සුළු ලෙස ඉහළට</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="date-weather">
+                        <span id="currentDate">2026 අප්‍රේල් 1, බදාදා</span>
+                        <div class="weather-widget">
+                            <div class="weather-city">
+                                <i class="fas fa-sun" style="color: #FFD700;"></i>
+                                <span>කොළඹ 32°C</span>
+                            </div>
+                            <div class="weather-city">
+                                <i class="fas fa-cloud-rain" style="color: #4FC3F7;"></i>
+                                <span>මහනුවර 28°C</span>
+                            </div>
+                            <div class="weather-city">
+                                <i class="fas fa-sun" style="color: #FFD700;"></i>
+                                <span>ගාල්ල 31°C</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <span style="cursor: pointer;"><i class="fas fa-font"></i> රුවක්:</span>
+                        <button onclick="changeFontSize(-1)" style="background: none; border: none; color: white; cursor: pointer;">A-</button>
+                        <button onclick="changeFontSize(1)" style="background: none; border: none; color: white; cursor: pointer;">A+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="header-main">
+                <div class="logo">
+                    <div class="logo-icon">IMR</div>
+                    <div class="logo-text">
+                        <h1>IMR NEWS</h1>
+                        <span>ශ්‍රී ලාංකික පුවත්</span>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="search-box">
+                        <input type="text" placeholder="පුවත් සොයන්න..." id="searchInput">
+                        <button onclick="performSearch()"><i class="fas fa-search"></i></button>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('login')">
+                        <i class="fas fa-user"></i> පිවිසෙන්න
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="container">
+                <ul class="nav-list">
+                    <li><a href="#" onclick="filterNews('all')"><i class="fas fa-home"></i> මුල් පිටුව</a></li>
+                    <li><a href="#" onclick="filterNews('current')">දැනට පවතින</a></li>
+                    <li><a href="#" onclick="filterNews('upcoming')">ඉදිරියට එන</a></li>
+                    <li><a href="#" onclick="filterNews('politics')">දේශපාලනය</a></li>
+                    <li><a href="#" onclick="filterNews('sports')">ක්‍රීඩා</a></li>
+                    <li><a href="#" onclick="filterNews('culture')">සංස්කෘතිය</a></li>
+                    <li><a href="#" onclick="filterNews('business')">ව්‍යාපාරික</a></li>
+                    <li><a href="#" onclick="scrollToEvents()"><i class="fas fa-calendar"></i> දිනදර්ශනය</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-main" onclick="openArticle(0)">
+                    <img src="https://images.unsplash.com/photo-1566836610593-62a6488a15ea?w=800" alt="Parliament" class="hero-image">
+                    <div class="hero-overlay">
+                        <span class="category-tag">දේශපාලනය</span>
+                        <h2 class="hero-title">නව පාර්ලිමේන්තුව රැස්වීම අද සිට ආරම්භ වේ - ජනාධිපති ප්‍රධාන ප්‍රකාශයක් කරයි</h2>
+                        <div class="hero-meta">
+                            <span><i class="fas fa-clock"></i> පැය 2කට පෙර</span>
+                            <span><i class="fas fa-user"></i> රොමේෂ් ජයවර්ධන</span>
+                            <span><i class="fas fa-eye"></i> 12.5K කියවීම්</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-side">
+                    <div class="side-card" onclick="openArticle(1)">
+                        <img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=400" alt="Cricket">
+                        <div class="side-overlay">
+                            <span class="category-tag" style="background: var(--secondary); color: var(--dark);">ක්‍රීඩා</span>
+                            <h3 class="side-title">ශ්‍රී ලංකා කණ්ඩායම ඉන්දියාවට එරෙහිව ජයග්‍රහණයක්</h3>
+                        </div>
+                    </div>
+                    <div class="side-card" onclick="openArticle(2)">
+                        <img src="https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?w=400" alt="Festival">
+                        <div class="side-overlay">
+                            <span class="category-tag" style="background: #9C27B0;">සංස්කෘතිය</span>
+                            <h3 class="side-title">වෙසක් උත්සව සඳහා සූදානම් මේ වන විටත් ආරම්භ වේ</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current News Section -->
+    <section class="news-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-bolt"></i>
+                    දැනට පවතින පුවත්
+                </h2>
+                <a href="#" class="view-all">සියලුම පුවත් <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="news-grid" id="currentNewsGrid">
+                <!-- News cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Events & Calendar Section -->
+    <section class="events-section" id="eventsSection">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    ඉදිරි සිදුවීම් සහ දිනදර්ශනය
+                </h2>
+            </div>
+            
+            <div class="events-grid">
+                <div class="calendar-widget">
+                    <div class="calendar-header">
+                        <h3 class="calendar-title">අප්‍රේල් 2026</h3>
+                        <div class="calendar-nav">
+                            <button onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                            <button onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar generated by JS -->
+                    </div>
+                </div>
+                
+                <div class="upcoming-events" id="upcomingEvents">
+                    <!-- Events populated by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming News Section -->
+    <section class="news-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-hourglass-half"></i>
+                    ඉදිරියට එන සිදුවීම්
+                </h2>
+                <a href="#" class="view-all">සියලුම සිදුවීම් <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="news-grid" id="upcomingNewsGrid">
+                <!-- News cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo" style="margin-bottom: 20px;">
+                        <div class="logo-icon" style="width: 50px; height: 50px; font-size: 20px;">IMR</div>
+                        <div class="logo-text">
+                            <h1 style="font-size: 24px;">IMR NEWS</h1>
+                            <span style="color: #aaa;">ශ්‍රී ලාංකික පුවත්</span>
+                        </div>
+                    </div>
+                    <p>ශ්‍රී ලංකාවේ විශ්වසනීයම පුවත් සේවාව. දැනට පවතින සහ ඉදිරියට එන සියලුම සිදුවීම් වාර්තා කිරීම අපගේ මෙහෙවරයි.</p>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">ප්‍රවර්ග</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> දේශපාලනය</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ක්‍රීඩා</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> සංස්කෘතිය</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ව්‍යාපාරික</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">අප ගැන</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> අප ගැන</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> අපව සම්බන්ධ කරගන්න</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ප්‍රකාශන නීති</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> රහස්‍යතා ප්‍රතිපත්තිය</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">සම්බන්ධ වන්න</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-phone"></i> +94 11 234 5678</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@imrnews.lk</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> කොළඹ 07, ශ්‍රී ලංකාව</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 IMR NEWS. සියලුම හිමිකම් ඇවිරිණි.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Registration/Login Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                <h2 id="modalTitle">පිවිසෙන්න</h2>
+                <p>ඔබගේ ගිණුමට පිවිසෙන්න නොඑසේ නම් නව ගිණුමක් සාදන්න</p>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Login Form -->
+                <form id="loginForm" style="display: block;">
+                    <div class="social-login">
+                        <button type="button" class="social-btn" onclick="socialLogin('google')">
+                            <i class="fab fa-google"></i> Google
+                        </button>
+                        <button type="button" class="social-btn" onclick="socialLogin('facebook')">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </button>
+                    </div>
+                    
+                    <div class="divider">හෝ</div>
+                    
+                    <div class="form-group">
+                        <label>විද්‍යුත් තැපෑල හෝ දුරකථන අංකය</label>
+                        <input type="text" id="loginEmail" placeholder="උදාහරණ: user@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>මුරපදය</label>
+                        <input type="password" id="loginPassword" placeholder="ඔබගේ මුරපදය" required>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">මතක තබා ගන්න</label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-sign-in-alt"></i> පිවිසෙන්න
+                    </button>
+                    
+                    <div style="text-align: center; margin-top: 15px;">
+                        <a href="#" style="color: var(--primary); font-size: 14px;">මුරපදය අමතක වුණාද?</a>
+                    </div>
+                </form>
+
+                <!-- Registration Form -->
+                <form id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label>සම්පූර්ණ නම *</label>
+                        <input type="text" id="regName" placeholder="ඔබගේ සම්පූර්ණ නම" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>විද්‍යුත් තැපෑල *</label>
+                        <input type="email" id="regEmail" placeholder="උදාහරණ: name@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>දුරකථන අංකය *</label>
+                        <input type="tel" id="regPhone" placeholder="උදාහරණ: 077 123 4567" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>දිස්ත්‍රික්කය *</label>
+                        <select id="regDistrict" required>
+                            <option value="">දිස්ත්‍රික්කය තෝරන්න</option>
+                            <option value="colombo">කොළඹ</option>
+                            <option value="gampaha">ගම්පහ</option>
+                            <option value="kalutara">කළුතර</option>
+                            <option value="kandy">මහනුවර</option>
+                            <option value="matale">මාතලේ</option>
+                            <option value="nuwaraeliya">නුවරඑළිය</option>
+                            <option value="galle">ගාල්ල</option>
+                            <option value="matara">මාතර</option>
+                            <option value="hambantota">හම්බන්තොට</option>
+                            <option value="jaffna">යාපනය</option>
+                            <option value="kilinochchi">කිලිනොච්චි</option>
+                            <option value="mannar">මන්නාරම</option>
+                            <option value="vavuniya">වවුනියාව</option>
+                            <option value="mullaitivu">මුලතිව්</option>
+                            <option value="batticaloa">මඩකලපුව</option>
+                            <option value="ampara">අම්පාර</option>
+                            <option value="trincomalee">ත්‍රිකුණාමලය</option>
+                            <option value="kurunegala">කුරුණෑගල</option>
+                            <option value="puttalam">පුත්තලම</option>
+                            <option value="anuradhapura">අනුරාධපුරය</option>
+                            <option value="polonnaruwa">පොළොන්නරුව</option>
+                            <option value="badulla">බදුල්ල</option>
+                            <option value="monaragala">මොණරාගල</option>
+                            <option value="ratnapura">රත්නපුර</option>
+                            <option value="kegalle">කෑගල්ල</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>උපන් දිනය</label>
+                        <input type="date" id="regDob">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>මුරපදය *</label>
+                        <input type="password" id="regPassword" placeholder="අක්ෂර 8කට වඩා වැඩි බලවත් මුරපදයක්" required oninput="checkPasswordStrength()">
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="strengthBar"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>මුරපදය තහවුරු කරන්න *</label>
+                        <input type="password" id="regConfirmPassword" placeholder="මුරපදය නැවත ඇතුළත් කරන්න" required>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="newsletter">
+                        <label for="newsletter">දිනපතා පුවත් ප්‍රවෘත්ති ප්‍රකාශයට දායක වීම</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">මම <a href="#">නියමයන් සහ කොන්දේසි</a> කියවා එකඟ වෙමි *</label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-user-plus"></i> ලියාපදිංචි වන්න
+                    </button>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <p id="modalFooterText">ගිණුමක් නැද්ද? <a onclick="toggleAuthMode()">ලියාපදිංචි වන්න</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article Modal -->
+    <div class="modal-overlay" id="articleModal">
+        <div class="modal-container article-modal">
+            <div class="modal-header" style="padding: 20px 30px;">
+                <button class="modal-close" onclick="closeArticleModal()"><i class="fas fa-times"></i></button>
+                <h2 style="font-size: 20px;">පුවත් ලිපිය</h2>
+            </div>
+            <div class="article-content" id="articleContent">
+                <!-- Article content populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- User Dashboard -->
+    <div class="user-dashboard" id="userDashboard">
+        <div class="dashboard-header">
+            <div class="dashboard-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <h3 id="userName">පරිශීලක</h3>
+            <p id="userEmail" style="font-size: 12px; opacity: 0.8;">user@example.com</p>
+        </div>
+        <ul class="dashboard-menu">
+            <li><a href="#"><i class="fas fa-bookmark"></i> සුරකින ලද ලිපි</a></li>
+            <li><a href="#"><i class="fas fa-comment"></i> මගේ අදහස්</a></li>
+            <li><a href="#"><i class="fas fa-bell"></i> දැනුම්දීම්</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> සැකසුම්</a></li>
+            <li><a href="#" onclick="logout()" style="color: #ff4444;"><i class="fas fa-sign-out-alt"></i> ඉවත් වන්න</a></li>
+        </ul>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">සාර්ථකයි!</span>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+
+    <script>
+        // News Data
+        const newsData = [
+            {
+                id: 0,
+                category: 'politics',
+                categoryName: 'දේශපාලනය',
+                title: 'නව පාර්ලිමේන්තුව රැස්වීම අද සිට ආරම්භ වේ - ජනාධිපති ප්‍රධාන ප්‍රකාශයක් කරයි',
+                excerpt: 'නව පාර්ලිමේන්තුවේ පළමු සැසිවාරය අද (අප්‍රේල් 01) ආරම්භ වන අතර ජනාධිපතිවරයා ප්‍රධාන ප්‍රකාශයක් සිදුකිරීමට නියමිතව ඇත.',
+                content: 'නව පාර්ලිමේන්තුවේ පළමු සැසිවාරය අද (අප්‍රේල් 01) උදෑසන 10.00 ට ආරම්භ වන අතර ජනාධිපතිවරයා ප්‍රධාන ප්‍රකාශයක් සිදුකිරීමට නියමිතව ඇත. මෙම සැසිවාරයට සම්බන්ධ වන සියලුම පාර්ලිමේන්තු මන්ත්‍රීවරුන්ට සෞඛ්‍ය මාර්ගෝපදේශ අනුව කටයුතු කිරීමට සිදුවේ. පාර්ලිමේන්තුවේ නව කථානායකවරයාද මෙම සැසිවාරයේදී තේරී පත්වීමට නියමිතය.',
+                image: 'https://images.unsplash.com/photo-1566836610593-62a6488a15ea?w=800',
+                date: 'පැය 2කට පෙර',
+                author: 'රොමේෂ් ජයවර්ධන',
+                views: '12.5K'
+            },
+            {
+                id: 1,
+                category: 'sports',
+                categoryName: 'ක්‍රීඩා',
+                title: 'ශ්‍රී ලංකා කණ්ඩායම ඉන්දියාවට එරෙහිව ජයග්‍රහණයක් වාර්තා කරයි',
+                excerpt: 'අයි.සී.සී. ලෝක කුසලාන තරගාවලියේ තරගයකදී ශ්‍රී ලංකා කණ්ඩායම ඉන්දියාවට එරෙහිව ජයග්‍රහණයක් වාර්තා කළේය.',
+                content: 'අයි.සී.සී. ලෝක කුසලාන තරගාවලියේ තරගයකදී ශ්‍රී ලංකා කණ්ඩායම ඉන්දියාවට එරෙහිව ජයග්‍රහණයක් වාර්තා කළේය. මෙම ජයග්‍රහණය ශ්‍රී ලංකා ක්‍රිකට් කණ්ඩායමට ලොව ප්‍රබලතම කණ්ඩායම් වලට එරෙහිව තරග කිරීමේ ශක්‍යතාවය පෙන්වා දෙයි.',
+                image: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=400',
+                date: 'පැය 4කට පෙර',
+                author: 'සඳුන් පෙරේරා',
+                views: '25.3K'
+            },
+            {
+                id: 2,
+                category: 'culture',
+                categoryName: 'සංස්කෘතිය',
+                title: 'වෙසක් උත්සව සඳහා සූදානම් මේ වන විටත් ආරම්භ වේ',
+                excerpt: 'අග්‍රහාය වෙසක් උත්සවය සඳහා දේවාල සහ පොදු ස්ථාන වල සැරසිලි ආරම්භ කර ඇත.',
+                content: 'අග්‍රහාය වෙසක් උත්සවය සඳහා දේවාල සහ පොදු ස්ථාන වල සැරසිලි ආරම්භ කර ඇත. පොලීසිය විශේෂ ආරක්ෂක සැලසුමක් ද හඳුන්වා දී ඇත.',
+                image: 'https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?w=400',
+                date: 'පැය 6කට පෙර',
+                author: 'කමලි ප්‍රනාන්දු',
+                views: '8.7K'
+            },
+            {
+                id: 3,
+                category: 'business',
+                categoryName: 'ව්‍යාපාරික',
+                title: 'කොළඹ කොටස් වෙළඳපොළේ සටනකින් පසුව සුළු ලෙස ඉහළට',
+                excerpt: 'අද දින වෙළඳාමේදී කොළඹ කොටස් වෙළඳපොළ මාර්ග දර්ශකය සුළු ලෙස ඉහළ ගියේය.',
+                content: 'අද දින වෙළඳාමේදී කොළඹ කොටස් වෙළඳපොළ මාර්ග දර්ශකය සුළු ලෙස ඉහළ ගියේය. විදේශීය ආයෝජකයින්ගේ මිලදී ගැනීම් වැඩි වීම මෙයට හේතුවයි.',
+                image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400',
+                date: 'පැය 3කට පෙර',
+                author: 'නිමල් ප්‍රනාන්දු',
+                views: '5.2K'
+            },
+            {
+                id: 4,
+                category: 'current',
+                categoryName: 'දැනට පවතින',
+                title: 'කොළඹ නගරයේ දැඩි රථවාහන තදබදයක් - විකල්ප මාර්ග භාවිතා කරන්නැයි ඉල්ලීම',
+                excerpt: 'කොළඹ නගරයේ ප්‍රධාන මාර්ගවල දැඩි රථවාහන තදබදයක් හටගෙන ඇති බව පොලීසිය පවසයි.',
+                content: 'කොළඹ නගරයේ ප්‍රධාන මාර්ගවල දැඩි රථවාහන තදබදයක් හටගෙන ඇති බව පොලීසිය පවසයි. මාර්ග නඩත්තු කටයුතු හේතුවෙන් මෙම තත්ත්වය ඇති වී ඇති අතර විකල්ප මාර්ග භාවිතා කරන ලෙස ජනතාවට දැනුම් දී ඇත.',
+                image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400',
+                date: 'පැය 1කට පෙර',
+                author: 'ප්‍රදීප් කුමාර',
+                views: '15.8K'
+            },
+            {
+                id: 5,
+                category: 'politics',
+                categoryName: 'දේශපාලනය',
+                title: 'නව කැබිනට් මණ්ඩලය දිවුරුම් දීම අද',
+                excerpt: 'නව රජයේ කැබිනට් මණ්ඩලය අද දිවුරුම් දීමට නියමිතව ඇත.',
+                content: 'නව රජයේ කැබිනට් මණ්ඩලය අද ජනාධිපති මන්දිරයේදී දිවුරුම් දීමට නියමිතව ඇත. මෙම අවස්ථාවට ජනාධිපතිතුමන් සහ අග්‍රාමාත්‍යතුමන් සහභාගී වනු ඇත.',
+                image: 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=400',
+                date: 'පැය 5කට පෙර',
+                author: 'ලක්ෂාන් බණ්ඩාර',
+                views: '20.1K'
+            },
+            {
+                id: 6,
+                category: 'upcoming',
+                categoryName: 'ඉදිරියට එන',
+                title: 'අනුරාධපුරයේ වෙසක් කලාපය විවෘත කිරීම අප්‍රේල් 10',
+                excerpt: 'අනුරාධපුරයේ ප්‍රසිද්ධ වෙසක් කලාපය මෙම මස 10 වන දින විවෘත කෙරේ.',
+                content: 'අනුරාධපුරයේ ප්‍රසිද්ධ වෙසක් කලාපය මෙම මස 10 වන දින විවෘත කෙරේ. මෙම අවස්ථාවට ජනාධිපතිතුමන් ප්‍රධාන ආරාධිත අමුත්තා ලෙස සහභාගී වනු ඇත.',
+                image: 'https://images.unsplash.com/photo-1569656065228-49d7651e6627?w=400',
+                date: 'අප්‍රේල් 10, 2026',
+                author: 'සංජය සිල්වා',
+                views: '3.5K'
+            },
+            {
+                id: 7,
+                category: 'upcoming',
+                categoryName: 'ඉදිරියට එන',
+                title: 'ගාල්ල මහාචාර්ය ක්‍රිකට් තරගාවලිය ආරම්භ වේ',
+                excerpt: 'ගාල්ල ජාත්‍යන්තර ක්‍රිකට් ක්‍රීඩාංගණයේ මහාචාර්ය ක්‍රිකට් තර
